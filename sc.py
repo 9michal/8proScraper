@@ -3,6 +3,26 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import datetime
 
+
+client = MongoClient('mongodb://localhost:27017/') 
+dbase = client['dbase']
+
+if 'collSC' not in dbase.list_collection_names():
+    collSC = dbase.create_collection(name='collSC')
+else:
+    collSC = dbase['collSC']
+
+date = str(datetime.date.today())
+
+if collSC.count_documents({}) == 0:
+    toAdd = True
+else:
+    document = collSC.find().sort([("data", -1)]).limit(1)[0]
+    if str(document['data']) != date:
+        toAdd = True
+    else:
+        toAdd = False
+
 def price(addr, cn):    # cn - class name
     psoup = 'errc' # conection error
     try:
@@ -21,25 +41,6 @@ def price(addr, cn):    # cn - class name
             psoup = 'errb'   # beautifulsoup error
     return psoup
 
-client = MongoClient('mongodb://localhost:27017/') 
-dbase = client['dbase']
-
-if 'collSC' not in dbase.list_collection_names():
-    collSC = dbase.create_collection(name='collSC')
-else:
-    collSC = dbase['collSC']
-
-date = str(datetime.date.today())
-
-if collSC.count_documents({}) == 0:
-    toAdd = True
-else:
-    document = collSC.find().sort([("naz", -1)]).limit(1)[0]
-    if str(document['data']) != date:
-        toAdd = True
-    else:
-        toAdd = False
-    
 if toAdd:
     xkom = price("https://www.x-kom.pl/p/516874-smartfon-telefon-xiaomi-redmi-note-8-pro-6-128gb-pearl-white.html", 
             ['div', 'class', 'y67i6l-4 iVWWNC'])  
@@ -57,3 +58,4 @@ if toAdd:
     print('OK')
 else:
     print('NOT OK')
+
