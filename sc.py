@@ -36,16 +36,14 @@ bestcena = price('https://bestcena.pl/smartfony-i-telefony/xiaomi-redmi-note-8-p
 client = MongoClient('mongodb://localhost:27017/') 
 dbase = client['dbase']
 
-#coll = dbase['coll']
-
 if 'collSC' not in dbase.list_collection_names():
     collSC = dbase.create_collection(name='collSC')
     toAdd = True
 else:
     collSC = dbase['collSC']
 
-#date = str(datetime.date.today())
-date = '2019-12-16'
+date = str(datetime.date.today())
+
 prices = {'data': date, 'xkom': xkom, 'mihome': mihome, 'komp': komp, 'bestcena': bestcena}
 
 if collSC.count_documents({}) == 0:
