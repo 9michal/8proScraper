@@ -23,36 +23,54 @@ else:
     else:
         toAdd = False
 
-def price(addr, cn):    # cn - class name
-    psoup = 'errc' # conection error
+
+def connect(addr):
     try:
         req = requests.get(addr)
     except:
-        req = 0
-    if req.status_code != 200:
-        return psoup
+        return False
+    if req.status_code == 200:
+        return True
     else:
-        try:
-            soup = BeautifulSoup(req.text, 'html.parser')
-            psoup = soup.find(cn[0],{cn[1]:cn[2]})
-            psoup = psoup.text.strip().split(',')[0]
-            psoup = int("".join(filter(str.isdigit, psoup)))
-        except:
-            psoup = 'errb'   # beautifulsoup error
+        return False
+
+
+def price(addr, cn):
+    req = requests.get(addr)
+    try:
+        soup = BeautifulSoup(req.text, 'html.parser')
+        psoup = soup.find(cn[0],{cn[1]:cn[2]})
+        psoup = psoup.text.strip().split(',')[0]
+        psoup = int("".join(filter(str.isdigit, psoup)))
+    except:
+        psoup = False 
     return psoup
 
 if toAdd:
-    xkom = price("https://www.x-kom.pl/p/516874-smartfon-telefon-xiaomi-redmi-note-8-pro-6-128gb-pearl-white.html", 
-            ['div', 'class', 'y67i6l-4 iVWWNC'])  
+    x = 'https://www.x-kom.pl/p/516874-smartfon-telefon-xiaomi-redmi-note-8-pro-6-128gb-pearl-white.html'
+    if connect(x):
+        xkom = price(x, ['div', 'class', 'y67i6l-4 iVWWNC'])
+    else:
+        xkom = 0
 
-    mihome = price("https://mi-home.pl/telefony-redmi/redmi-note-8-pro-6gb-64gb-pearl-white",
-            ['span' , 'itemprop', 'price'])
+    m = 'https://mi-home.pl/telefony-redmi/redmi-note-8-pro-6gb-64gb-pearl-white'
+    if connect(m):
+        mihome = price(m,['span' , 'itemprop', 'price'])
+    else:
+        mihome = 0
 
-    komp = price("https://www.komputronik.pl/product/668178/xiaomi-redmi-note-8-pro-6-128gb-bialy.html",
-            ['span' , 'class', 'proper'])
+    k = 'https://www.komputronik.pl/product/668178/xiaomi-redmi-note-8-pro-6-128gb-bialy.html'
+    if connect(k):
+        komp = price(k, ['span' , 'class', 'proper'])
+    else:
+        komp = 0
 
-    bestcena = price('https://bestcena.pl/smartfony-i-telefony/xiaomi-redmi-note-8-pro-6-64gb-dual-sim-bialy',
-            ['span', 'class', 'price_amount'])
+    b = 'https://bestcena.pl/smartfony-i-telefony/xiaomi-redmi-note-8-pro-6-64gb-dual-sim-bialy'
+    if connect(b):
+        bestcena = price(b, ['span', 'class', 'price_amount'])
+    else:
+        bestcena = 0
+
     prices = {'data': date, 'xkom': xkom, 'mihome': mihome, 'komp': komp, 'bestcena': bestcena}
     collSC.insert_one(prices)
     print('OK')
