@@ -48,19 +48,15 @@ def price(addr, cn):
 
 if toAdd:
     ad = []
-    x = ['https://www.x-kom.pl/p/516874-smartfon-telefon-xiaomi-redmi-note-8-pro-6-128gb-pearl-white.html', 
-        ['div', 'class', 'y67i6l-4 iVWWNC']]
-    m = ['https://mi-home.pl/telefony-redmi/redmi-note-8-pro-6gb-64gb-pearl-white',
-        ['span' , 'itemprop', 'price']]
-    k = ['https://www.komputronik.pl/product/668178/xiaomi-redmi-note-8-pro-6-128gb-bialy.html',
-        ['span' , 'class', 'proper']]
-    b = ['https://bestcena.pl/smartfony-i-telefony/xiaomi-redmi-note-8-pro-6-64gb-dual-sim-bialy',
-        ['span', 'class', 'price_amount']]
-    ad.append(x)
-    ad.append(m)
-    ad.append(k)
-    ad.append(b)
-
+    ad.append(['https://www.x-kom.pl/p/516874-smartfon-telefon-xiaomi-redmi-note-8-pro-6-128gb-pearl-white.html', 
+            ['div', 'class', 'y67i6l-4 iVWWNC']])
+    ad.append(['https://mi-home.pl/telefony-redmi/redmi-note-8-pro-6gb-64gb-pearl-white',
+            ['span' , 'itemprop', 'price']])
+    ad.append(['https://www.komputronik.pl/product/668178/xiaomi-redmi-note-8-pro-6-128gb-bialy.html',
+            ['span' , 'class', 'proper']])
+    ad.append(['https://bestcena.pl/smartfony-i-telefony/xiaomi-redmi-note-8-pro-6-64gb-dual-sim-bialy',
+            ['span', 'class', 'price_amount']])
+    #ad.append()
     y = [-1] * len(ad)
 
     x = 0
